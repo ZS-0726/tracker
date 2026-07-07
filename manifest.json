@@ -1,0 +1,15 @@
+{
+  "name": "封印と鍛錬",
+  "short_name": "封印と鍛錬",
+  "start_url": "/tracker/discipline_tracker.html",
+  "display": "standalone",
+  "background_color": "#0D0D0F",
+  "theme_color": "#0D0D0F",
+  "icons": [
+    {
+      "src": "https://fav.farm/%E2%9A%94%EF%B8%8F",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
