@@ -120,8 +120,13 @@ h1{font-size:18px;font-weight:600;letter-spacing:0.04em;text-align:center;paddin
   <div class="sh">禁欲カテゴリー</div>
   <div id="seal-cats"></div>
   <div class="add-row">
-    <input id="seal-new" placeholder="カテゴリー追加（例：YouTube）"/>
+    <input id="seal-new" placeholder="カテゴリー名（例：YouTube）"/>
     <button class="sadd" onclick="addCat('seal')">＋追加</button>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;margin-top:4px;margin-bottom:4px">
+    <label style="font-size:11px;color:var(--text-sub);white-space:nowrap">禁欲開始日：</label>
+    <input type="datetime-local" id="seal-start" style="flex:1;padding:7px 10px;border:1px solid var(--border-light);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font-size:13px;outline:none"/>
+    <span style="font-size:11px;color:var(--text-dim)">省略=今</span>
   </div>
 </div>
 
@@ -146,16 +151,24 @@ h1{font-size:18px;font-weight:600;letter-spacing:0.04em;text-align:center;paddin
 <!-- AI -->
 <div class="sec" id="sec-ai">
 
-  <!-- Export -->
+  <!-- Export / Import -->
   <div class="export-card">
-    <h3>📤 データエクスポート（Claudeに貼り付けて分析）</h3>
+    <h3>📤 エクスポート（データをコピー）</h3>
     <div class="export-btns">
-      <button class="exp-btn" onclick="exportText()">📋 テキストでコピー</button>
       <button class="exp-btn" onclick="exportJSON()">📦 JSONでコピー</button>
-      <button class="exp-btn" onclick="exportShow()">👁 表示</button>
+      <button class="exp-btn" onclick="exportShow()">👁 表示してコピー</button>
+      <button class="exp-btn" onclick="exportText()">📋 テキストでコピー</button>
     </div>
     <textarea id="export-area" class="export-text" readonly></textarea>
     <div id="export-msg" style="font-size:11px;color:var(--train);margin-top:6px;display:none">✓ コピーしました</div>
+  </div>
+
+  <div class="export-card">
+    <h3>📥 インポート（データを貼り付けて復元）</h3>
+    <div style="font-size:11px;color:var(--text-dim);margin-bottom:8px">エクスポートしたJSONをそのまま貼り付けて「インポート実行」を押してください。現在のデータは上書きされます。</div>
+    <textarea id="import-area" style="width:100%;padding:10px;border:1px solid var(--border-light);border-radius:var(--radius-sm);background:var(--bg);color:var(--text-sub);font-size:11px;font-family:monospace;resize:vertical;min-height:100px;outline:none" placeholder='{"sealCats":[...],"trainCats":[...],"logs":[...]}'></textarea>
+    <button onclick="importData()" style="display:block;width:100%;margin-top:8px;padding:10px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border-light);background:var(--surface);color:var(--text)">📥 インポート実行</button>
+    <div id="import-msg" style="font-size:11px;margin-top:6px;display:none"></div>
   </div>
 
   <!-- AI Key -->
@@ -215,7 +228,9 @@ function getTimer(id){if(!timers[id])timers[id]={running:false,start:0,elapsed:0
 function load(){
   try{const d=JSON.parse(localStorage.getItem(KEY));if(d)S=d;}catch(e){}
   if(!S.sealCats)S.sealCats=[];if(!S.trainCats)S.trainCats=[];if(!S.logs)S.logs=[];
-  if(!S.sealCats.length)S.sealCats=[{id:'s1',name:'自慰行為',reset:Date.now()},{id:'s2',name:'YouTube',reset:Date.now()}];
+  // migrate old 'reset' field to 'start'
+  S.sealCats.forEach(c=>{if(c.reset&&!c.start){c.start=c.reset;delete c.reset;}});
+  if(!S.sealCats.length)S.sealCats=[{id:'s1',name:'自慰行為',start:Date.now()},{id:'s2',name:'YouTube',start:Date.now()}];
   if(!S.trainCats.length)S.trainCats=[{id:'t1',name:'絵画'},{id:'t2',name:'中国語'}];
   // restore api key display
   const k=localStorage.getItem('ai_key_saved');
@@ -244,7 +259,7 @@ function fmtDate(ts){const d=new Date(ts);return d.getFullYear()+'/'+(d.getMonth
 
 function renderSeal(){
   const cats=S.sealCats;let maxD=0;
-  cats.forEach(c=>{const d=days(c.reset);if(d>maxD)maxD=d;});
+  cats.forEach(c=>{const d=days(c.start);if(d>maxD)maxD=d;});
   const rank=getRank(maxD);
   document.getElementById('seal-rank').textContent=rank.n+' — '+maxD+'日';
   const failMonth=S.logs.filter(l=>{const d=new Date(l.ts),n=new Date();return l.type==='seal'&&d.getMonth()===n.getMonth()&&d.getFullYear()===n.getFullYear();}).length;
@@ -254,39 +269,49 @@ function renderSeal(){
     <div class="stat"><div class="stat-n sv">${S.logs.filter(l=>l.type==='seal').length}</div><div class="stat-l">総記録数</div></div>`;
   const el=document.getElementById('seal-cats');el.innerHTML='';
   cats.forEach(cat=>{
-    const d=days(cat.reset);const tid=cat.id;const t=getTimer(tid);
+    const d=days(cat.start);
+    const startStr=new Date(cat.start).toLocaleDateString('ja-JP');
+    const tid=cat.id;
     const div=document.createElement('div');div.className='cat-card';div.id='card-'+tid;
     div.innerHTML=`
       <div class="cat-head">
-        <div><div class="cat-name">${cat.name}</div><div class="cat-sub">${d}日 連続禁欲</div></div>
+        <div>
+          <div class="cat-name">${cat.name}</div>
+          <div class="cat-sub">開始: ${startStr}　経過: <strong style="color:var(--seal-text);font-size:15px">${d}日</strong></div>
+        </div>
         <div class="cat-btns">
-          <button class="btn sbtn" onclick="toggleTimerBlock('${tid}','seal')">記録</button>
-          <button class="btn dbtn" onclick="resetSeal('${tid}')">リセット</button>
+          <button class="btn sbtn" onclick="toggleFailBlock('${tid}')">失敗を記録</button>
           <button class="btn dbtn" onclick="deleteCat('seal','${tid}')">✕</button>
         </div>
       </div>
       <div class="timer-block" id="tb-${tid}">
-        <div class="timer-row">
-          <span class="timer-disp" id="td-${tid}">${fmtTimer(t.elapsed)}</span>
-          <div class="timer-acts">
-            <button class="btn sbtn tbig" id="tpb-${tid}" onclick="toggleTimer('${tid}','seal')">${t.running?'⏸ 一時停止':'▶ 開始'}</button>
-            <button class="btn dbtn tbig" onclick="resetTimerCat('${tid}')">↺</button>
-          </div>
-        </div>
         <div class="log-form">
-          <label>日時</label><input type="datetime-local" id="ltime-${tid}"/>
-          <label>継続時間（分）</label><input type="number" id="ldur-${tid}" placeholder="タイマー or 手入力" min="0"/>
-          <label>メモ・内容</label><textarea id="lnote-${tid}" placeholder="状況・引き金・気づきなど"></textarea>
-          <button class="submit-btn ssubmit" onclick="submitLog('seal','${tid}')">記録する → 禁欲リセット</button>
+          <label>失敗した日時</label><input type="datetime-local" id="ltime-${tid}"/>
+          <label>メモ（状況・引き金・気づきなど）</label>
+          <textarea id="lnote-${tid}" placeholder="例：夜中に動画を見ていたら…"></textarea>
+          <button class="submit-btn ssubmit" onclick="submitSealFail('${tid}')">記録して禁欲カウンターをリセット</button>
         </div>
       </div>`;
     el.appendChild(div);setNow('ltime-'+tid);
   });
 }
 
-function resetSeal(id){
-  if(!confirm('禁欲カウンターをリセットしますか？'))return;
-  const c=S.sealCats.find(x=>x.id===id);if(c){c.reset=Date.now();save();renderSeal();}
+function toggleFailBlock(id){
+  const block=document.getElementById('tb-'+id);const isOpen=block.classList.contains('open');
+  document.querySelectorAll('.timer-block.open').forEach(b=>b.classList.remove('open'));
+  block.classList.toggle('open',!isOpen);
+}
+
+function submitSealFail(catId){
+  const cat=S.sealCats.find(c=>c.id===catId);if(!cat)return;
+  const tsVal=document.getElementById('ltime-'+catId).value;
+  const ts=tsVal?new Date(tsVal).getTime():Date.now();
+  const note=document.getElementById('lnote-'+catId).value.trim();
+  S.logs.push({id:Date.now()+'_'+Math.random(),type:'seal',catId,catName:cat.name,ts,dur:0,note});
+  cat.start=ts;
+  save();
+  document.getElementById('tb-'+catId).classList.remove('open');
+  renderSeal();
 }
 
 function renderTrain(){
@@ -385,7 +410,14 @@ function submitLog(type,catId){
 function addCat(type){
   const inp=document.getElementById(type+'-new');const name=inp.value.trim();if(!name)return;
   const id=(type==='seal'?'s':'t')+Date.now();
-  if(type==='seal')S.sealCats.push({id,name,reset:Date.now()});else S.trainCats.push({id,name});
+  if(type==='seal'){
+    const startInp=document.getElementById('seal-start');
+    const start=startInp&&startInp.value?new Date(startInp.value).getTime():Date.now();
+    S.sealCats.push({id,name,start});
+    if(startInp)startInp.value='';
+  }else{
+    S.trainCats.push({id,name});
+  }
   inp.value='';save();type==='seal'?renderSeal():renderTrain();
 }
 function deleteCat(type,id){
@@ -417,7 +449,7 @@ function deleteLog(id){
 function buildTextExport(){
   const lines=['=== 封印と鍛錬 データエクスポート ===','生成日時: '+new Date().toLocaleString('ja-JP'),''];
   lines.push('【封印カテゴリー現在の状況】');
-  S.sealCats.forEach(c=>{lines.push(`・${c.name}: ${days(c.reset)}日 連続禁欲中`);});
+  S.sealCats.forEach(c=>{lines.push(`・${c.name}: ${days(c.start)}日 連続禁欲中`);});
   lines.push('');
   lines.push('【鍛錬カテゴリー現在の状況】');
   S.trainCats.forEach(c=>{
@@ -435,6 +467,25 @@ function exportText(){
   const txt=buildTextExport();
   navigator.clipboard.writeText(txt).then(()=>{showExpMsg();}).catch(()=>{showExportArea(txt);});
 }
+function importData(){
+  const txt=document.getElementById('import-area').value.trim();
+  const msg=document.getElementById('import-msg');
+  if(!txt){msg.style.display='block';msg.style.color='var(--danger)';msg.textContent='データを貼り付けてください';return;}
+  try{
+    const d=JSON.parse(txt);
+    if(!d.sealCats||!d.trainCats||!d.logs){throw new Error('形式が正しくありません');}
+    // migrate reset→start
+    d.sealCats.forEach(c=>{if(c.reset&&!c.start){c.start=c.reset;delete c.reset;}});
+    S=d;save();
+    renderSeal();renderTrain();
+    document.getElementById('import-area').value='';
+    msg.style.display='block';msg.style.color='var(--train)';msg.textContent='✓ インポート完了！データを復元しました';
+    setTimeout(()=>msg.style.display='none',3000);
+  }catch(e){
+    msg.style.display='block';msg.style.color='var(--danger)';msg.textContent='エラー: '+e.message;
+  }
+}
+
 function exportJSON(){
   const txt=JSON.stringify(S,null,2);
   navigator.clipboard.writeText(txt).then(()=>{showExpMsg();}).catch(()=>{showExportArea(txt);});
@@ -461,7 +512,7 @@ function getKey(){return localStorage.getItem('ai_key_saved')||document.getEleme
 function buildDataContext(){
   const lines=['あなたは行動分析の専門家です。以下は私の行動記録データです。このデータを元に質問に答えてください。\n'];
   lines.push('## 封印カテゴリー（禁欲トラッカー）');
-  S.sealCats.forEach(c=>lines.push(`- ${c.name}: 現在 ${days(c.reset)}日 連続禁欲中`));
+  S.sealCats.forEach(c=>lines.push(`- ${c.name}: 現在 ${days(c.start)}日 連続禁欲中`));
   lines.push('\n## 鍛錬カテゴリー（習慣トラッカー）');
   S.trainCats.forEach(c=>{
     const min=S.logs.filter(l=>l.type==='train'&&l.catId===c.id).reduce((s,l)=>s+(l.dur||0),0);
