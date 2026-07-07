@@ -22,12 +22,13 @@
 body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans JP',sans-serif;min-height:100vh;font-size:15px}
 .app{max-width:620px;margin:0 auto;padding:16px 12px 80px}
 h1{font-size:18px;font-weight:600;letter-spacing:0.04em;text-align:center;padding:12px 0 20px;color:var(--text-sub)}
-.tabs{display:flex;gap:5px;margin-bottom:20px;position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:10}
-.tab{flex:1;padding:9px 2px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);font-size:12px;font-weight:500;cursor:pointer;color:var(--text-sub);transition:all 0.15s;-webkit-tap-highlight-color:transparent}
+.tabs{display:flex;gap:4px;margin-bottom:20px;position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:10}
+.tab{flex:1;min-width:0;padding:9px 2px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);font-size:11px;font-weight:500;cursor:pointer;color:var(--text-sub);transition:all 0.15s;-webkit-tap-highlight-color:transparent}
 .tab:active{opacity:0.7}
 .tab.ts{border-color:var(--seal);background:var(--seal-dim);color:var(--seal-text)}
 .tab.tt{border-color:var(--train);background:var(--train-dim);color:var(--train-text)}
 .tab.tl{border-color:var(--border-light);background:var(--surface);color:var(--text)}
+.tab.tc{border-color:#5A8A6A;background:#0A2018;color:#7ECBA0}
 .tab.ta{border-color:var(--ai);background:var(--ai-dim);color:var(--ai-text)}
 .sec{display:none}.sec.on{display:block}
 .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
@@ -39,22 +40,20 @@ h1{font-size:18px;font-weight:600;letter-spacing:0.04em;text-align:center;paddin
 .tbadge{background:var(--train-dim);border:1px solid var(--train);color:var(--train-text)}
 .cat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden}
 .cat-head{display:flex;align-items:center;padding:12px 14px;gap:10px}
-.cat-name{flex:1;font-size:15px;font-weight:500}.cat-sub{font-size:12px;color:var(--text-sub);margin-top:2px}
-.cat-btns{display:flex;gap:6px}
+.cat-btns{display:flex;gap:6px;flex-shrink:0}
 .btn{padding:7px 13px;border-radius:var(--radius-sm);border:1px solid var(--border);background:transparent;font-size:12px;font-weight:500;cursor:pointer;color:var(--text-sub);-webkit-tap-highlight-color:transparent;transition:all 0.12s}
 .btn:active{opacity:0.6}
 .sbtn{border-color:var(--seal);color:var(--seal-text);background:var(--seal-dim)}
 .tbtn{border-color:var(--train);color:var(--train-text);background:var(--train-dim)}
 .dbtn{border-color:var(--border-light);color:var(--text-sub)}
-.timer-block{border-top:1px solid var(--border);padding:12px 14px;display:none;background:var(--surface)}
-.timer-block.open{display:block}
+.panel{border-top:1px solid var(--border);padding:12px 14px;display:none;background:var(--surface)}
+.panel.open{display:block}
 .timer-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .timer-disp{font-size:26px;font-weight:600;font-variant-numeric:tabular-nums;min-width:80px;letter-spacing:0.04em}
 .timer-acts{display:flex;gap:6px;flex:1}.tbig{padding:9px 16px;font-size:13px}
-.log-form{margin-top:8px}
-.log-form label{font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;margin-top:10px}
-.log-form input,.log-form textarea{width:100%;padding:9px 12px;border:1px solid var(--border-light);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-size:14px;font-family:inherit;outline:none}
-.log-form textarea{resize:vertical;min-height:60px}
+.lf label{font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;margin-top:10px}
+.lf input,.lf textarea{width:100%;padding:9px 12px;border:1px solid var(--border-light);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-size:14px;font-family:inherit;outline:none}
+.lf textarea{resize:vertical;min-height:60px}
 .submit-btn{display:block;width:100%;margin-top:12px;padding:11px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;border:none;-webkit-tap-highlight-color:transparent}
 .ssubmit{background:var(--seal-mid);color:var(--seal-text)}
 .tsubmit{background:var(--train-dim);border:1px solid var(--train);color:var(--train-text)}
@@ -75,9 +74,6 @@ h1{font-size:18px;font-weight:600;letter-spacing:0.04em;text-align:center;paddin
 .xbtn{background:transparent;border:none;cursor:pointer;color:var(--text-dim);font-size:20px;line-height:1;padding:0 2px;flex-shrink:0}
 .xbtn:active{color:var(--danger)}
 .empty{color:var(--text-sub);font-size:13px;padding:24px;text-align:center}
-
-/* ── AI TAB ── */
-.ai-section{margin-bottom:20px}
 .ai-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px}
 .ai-card h3{font-size:13px;font-weight:600;color:var(--ai-text);margin-bottom:10px}
 .ai-key-row{display:flex;gap:8px;margin-bottom:8px}
@@ -93,29 +89,56 @@ h1{font-size:18px;font-weight:600;letter-spacing:0.04em;text-align:center;paddin
 .ai-quick-btns{display:flex;flex-direction:column;gap:6px}
 .qbtn{padding:10px 14px;border-radius:var(--radius-sm);border:1px solid var(--border-light);background:var(--surface);color:var(--text-sub);font-size:13px;cursor:pointer;text-align:left;-webkit-tap-highlight-color:transparent}
 .qbtn:active{opacity:0.7}
-
-/* ── EXPORT ── */
 .export-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px}
 .export-card h3{font-size:13px;font-weight:600;color:var(--text-sub);margin-bottom:10px}
 .export-btns{display:flex;gap:8px;flex-wrap:wrap}
 .exp-btn{padding:9px 16px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border-light);background:var(--surface);color:var(--text);-webkit-tap-highlight-color:transparent}
 .exp-btn:active{opacity:0.7}
 .export-text{width:100%;margin-top:10px;padding:10px;border:1px solid var(--border-light);border-radius:var(--radius-sm);background:var(--bg);color:var(--text-sub);font-size:11px;font-family:monospace;resize:vertical;min-height:80px;display:none}
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.cal-header h2{font-size:15px;font-weight:600}
+.cal-nav{padding:6px 14px;border-radius:var(--radius-sm);border:1px solid var(--border-light);background:var(--surface);color:var(--text);cursor:pointer;font-size:14px}
+.cal-cat-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.cal-cat-btn{padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--text-sub);font-size:12px;cursor:pointer}
+.cal-cat-btn.act-s{border-color:var(--seal);background:var(--seal-dim);color:var(--seal-text)}
+.cal-cat-btn.act-t{border-color:var(--train);background:var(--train-dim);color:var(--train-text)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:20px}
+.cal-dow{font-size:10px;color:var(--text-dim);text-align:center;padding:4px 0;font-weight:600}
+.cal-day{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px}
+.cal-day.empty{background:transparent;color:transparent}
+.cal-day.ok{background:#1A3A2A;color:#7ECBA0;font-weight:600}
+.cal-day.fail{background:#3A1218;color:#E07080;font-weight:600}
+.cal-day.has-train{background:#0A2A22;color:#5DCAA5;font-weight:600}
+.cal-day.neutral{background:var(--surface);color:var(--text-dim)}
+.cal-day.today{outline:2px solid var(--seal);outline-offset:1px}
+.cal-legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.cal-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-sub)}
+.cal-legend-dot{width:12px;height:12px;border-radius:3px}
+.tl-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px}
+.tl-cat-name{font-size:13px;font-weight:600;margin-bottom:10px;color:var(--seal-text)}
+.tl-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.tl-label{font-size:11px;color:var(--text-sub);min-width:50px;text-align:right;flex-shrink:0}
+.tl-bar-wrap{flex:1;height:18px;background:var(--surface);border-radius:4px;overflow:hidden}
+.tl-bar{height:100%;border-radius:4px;display:flex;align-items:center;padding:0 6px;font-size:10px;font-weight:600;min-width:4px}
+.tl-bar.ok-bar{background:linear-gradient(90deg,#1A5C3A,#2E9E60);color:#9FE1CB}
+.tl-day-label{font-size:11px;color:var(--text-sub);min-width:32px;flex-shrink:0}
+.fail-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:11px}
+.fail-badge{padding:3px 10px;background:#3A1218;border-radius:4px;color:#E07080;white-space:nowrap}
 </style>
 </head>
 <body>
 <div class="app">
-<h1>⚔ 封印と鍛錬</h1>
+<h1>&#9876; 封印と鍛錬</h1>
 <div class="tabs">
-  <button class="tab ts" id="tab-seal" onclick="sw('seal')">🔒 封印</button>
-  <button class="tab" id="tab-train" onclick="sw('train')">🔥 鍛錬</button>
-  <button class="tab" id="tab-log" onclick="sw('log')">📋 記録</button>
-  <button class="tab" id="tab-ai" onclick="sw('ai')">🤖 AI分析</button>
+  <button class="tab ts" id="tab-seal" onclick="sw('seal')">&#128274; 封印</button>
+  <button class="tab" id="tab-train" onclick="sw('train')">&#128293; 鍛錬</button>
+  <button class="tab" id="tab-cal" onclick="sw('cal')">&#128197; 履歴</button>
+  <button class="tab" id="tab-log" onclick="sw('log')">&#128203; 記録</button>
+  <button class="tab" id="tab-ai" onclick="sw('ai')">&#129302; AI</button>
 </div>
 
-<!-- SEAL -->
 <div class="sec on" id="sec-seal">
-  <div id="seal-badge" class="badge sbadge">👑 <span id="seal-rank">—</span></div>
+  <div class="badge sbadge">&#128081; <span id="seal-rank">&#8212;</span></div>
   <div class="stat-grid" id="seal-stats"></div>
   <div class="sh">禁欲カテゴリー</div>
   <div id="seal-cats"></div>
@@ -123,92 +146,96 @@ h1{font-size:18px;font-weight:600;letter-spacing:0.04em;text-align:center;paddin
     <input id="seal-new" placeholder="カテゴリー名（例：YouTube）"/>
     <button class="sadd" onclick="addCat('seal')">＋追加</button>
   </div>
-  <div style="display:flex;align-items:center;gap:8px;margin-top:4px;margin-bottom:4px">
-    <label style="font-size:11px;color:var(--text-sub);white-space:nowrap">禁欲開始日：</label>
+  <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+    <label style="font-size:11px;color:var(--text-sub);white-space:nowrap">開始日：</label>
     <input type="datetime-local" id="seal-start" style="flex:1;padding:7px 10px;border:1px solid var(--border-light);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font-size:13px;outline:none"/>
     <span style="font-size:11px;color:var(--text-dim)">省略=今</span>
   </div>
 </div>
 
-<!-- TRAIN -->
 <div class="sec" id="sec-train">
-  <div class="badge tbadge">💪 <span id="train-head">鍛錬トラッカー</span></div>
+  <div class="badge tbadge">&#128170; <span id="train-head">鍛錬トラッカー</span></div>
   <div class="stat-grid" id="train-stats"></div>
   <div class="sh">習慣カテゴリー</div>
   <div id="train-cats"></div>
   <div class="add-row">
-    <input id="train-new" placeholder="カテゴリー追加（例：絵画）"/>
+    <input id="train-new" placeholder="カテゴリー名（例：絵画）"/>
     <button class="tadd" onclick="addCat('train')">＋追加</button>
   </div>
 </div>
 
-<!-- LOG -->
+<div class="sec" id="sec-cal">
+  <div class="sh">カテゴリー選択</div>
+  <div id="cal-cat-tabs" class="cal-cat-tabs"></div>
+  <div class="sh">月カレンダー</div>
+  <div class="cal-header">
+    <button class="cal-nav" onclick="calMove(-1)">&#9664;</button>
+    <h2 id="cal-title"></h2>
+    <button class="cal-nav" onclick="calMove(1)">&#9654;</button>
+  </div>
+  <div class="cal-legend">
+    <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#1A3A2A"></div>禁欲成功</div>
+    <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#3A1218"></div>失敗</div>
+    <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#0A2A22"></div>鍛錬あり</div>
+  </div>
+  <div class="cal-grid" id="cal-grid"></div>
+  <div class="sh">禁欲タイムライン</div>
+  <div id="tl-area"></div>
+</div>
+
 <div class="sec" id="sec-log">
   <div class="sh">全記録（新しい順）</div>
   <div id="all-logs" class="log-list"></div>
 </div>
 
-<!-- AI -->
 <div class="sec" id="sec-ai">
-
-  <!-- Export / Import -->
   <div class="export-card">
-    <h3>📤 エクスポート（データをコピー）</h3>
+    <h3>&#128228; エクスポート</h3>
     <div class="export-btns">
-      <button class="exp-btn" onclick="exportJSON()">📦 JSONでコピー</button>
-      <button class="exp-btn" onclick="exportShow()">👁 表示してコピー</button>
-      <button class="exp-btn" onclick="exportText()">📋 テキストでコピー</button>
+      <button class="exp-btn" onclick="exportJSON()">&#128230; JSONコピー</button>
+      <button class="exp-btn" onclick="exportShow()">&#128065; 表示</button>
+      <button class="exp-btn" onclick="exportText()">&#128203; テキスト</button>
     </div>
     <textarea id="export-area" class="export-text" readonly></textarea>
-    <div id="export-msg" style="font-size:11px;color:var(--train);margin-top:6px;display:none">✓ コピーしました</div>
+    <div id="export-msg" style="font-size:11px;color:var(--train);margin-top:6px;display:none">&#10003; コピーしました</div>
   </div>
-
   <div class="export-card">
-    <h3>📥 インポート（データを貼り付けて復元）</h3>
-    <div style="font-size:11px;color:var(--text-dim);margin-bottom:8px">エクスポートしたJSONをそのまま貼り付けて「インポート実行」を押してください。現在のデータは上書きされます。</div>
-    <textarea id="import-area" style="width:100%;padding:10px;border:1px solid var(--border-light);border-radius:var(--radius-sm);background:var(--bg);color:var(--text-sub);font-size:11px;font-family:monospace;resize:vertical;min-height:100px;outline:none" placeholder='{"sealCats":[...],"trainCats":[...],"logs":[...]}'></textarea>
-    <button onclick="importData()" style="display:block;width:100%;margin-top:8px;padding:10px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border-light);background:var(--surface);color:var(--text)">📥 インポート実行</button>
+    <h3>&#128229; インポート</h3>
+    <div style="font-size:11px;color:var(--text-dim);margin-bottom:8px">エクスポートしたJSONを貼り付けて実行。現在のデータは上書きされます。</div>
+    <textarea id="import-area" style="width:100%;padding:10px;border:1px solid var(--border-light);border-radius:var(--radius-sm);background:var(--bg);color:var(--text-sub);font-size:11px;font-family:monospace;resize:vertical;min-height:80px;outline:none" placeholder='{"sealCats":[...]}'></textarea>
+    <button onclick="importData()" style="display:block;width:100%;margin-top:8px;padding:10px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border-light);background:var(--surface);color:var(--text)">&#128229; インポート実行</button>
     <div id="import-msg" style="font-size:11px;margin-top:6px;display:none"></div>
   </div>
-
-  <!-- AI Key -->
   <div class="ai-card">
-    <h3>🔑 Anthropic APIキー</h3>
+    <h3>&#128273; Anthropic APIキー</h3>
     <div class="ai-key-row">
       <input type="password" id="ai-key" placeholder="sk-ant-..." autocomplete="off"/>
       <button onclick="saveKey()">保存</button>
     </div>
-    <div class="ai-key-hint">キーはこのデバイスのlocalStorageにのみ保存。<br>取得: console.anthropic.com → API Keys</div>
+    <div class="ai-key-hint">console.anthropic.com → API Keys で取得</div>
     <div id="key-status" style="font-size:11px;margin-top:6px;color:var(--text-sub)"></div>
   </div>
-
-  <!-- Quick questions -->
   <div class="ai-card">
-    <h3>⚡ クイック分析</h3>
+    <h3>&#9889; クイック分析</h3>
     <div class="ai-quick-btns">
-      <button class="qbtn" onclick="quickAsk('直近30日間の封印（禁欲）パターンを分析して。失敗の傾向、時間帯、曜日、メモの内容から原因や引き金を特定して日本語で教えて。')">🔒 禁欲パターン・引き金を分析</button>
-      <button class="qbtn" onclick="quickAsk('直近30日の鍛錬（習慣）データを分析して。どの習慣が継続できていて、どれが不安定か。週ごとの傾向と改善アドバイスを日本語で教えて。')">🔥 習慣の継続パターンを分析</button>
-      <button class="qbtn" onclick="quickAsk('封印の失敗と鍛錬の実施に相関関係はある？（例：絵を描いた日は禁欲できているか）日本語で分析して。')">🔗 封印×鍛錬の相関を分析</button>
-      <button class="qbtn" onclick="quickAsk('今週・今月の全データをサマリーして。称号の進捗、習慣の累計時間、注目すべき変化を日本語で簡潔にまとめて。')">📊 今週・今月のサマリー</button>
-      <button class="qbtn" onclick="quickAsk('データを見て、私が特に頑張るべきこと・改善できることを3つ、具体的なアドバイスとして日本語で教えて。')">💡 改善アドバイスを3つ出して</button>
+      <button class="qbtn" onclick="quickAsk('直近30日間の封印（禁欲）パターンを分析して。失敗の傾向、時間帯、曜日、メモから引き金を特定して日本語で教えて。')">&#128274; 禁欲パターン・引き金分析</button>
+      <button class="qbtn" onclick="quickAsk('直近30日の鍛錬データを分析して。どの習慣が継続できていて、どれが不安定か。週ごとの傾向と改善アドバイスを日本語で。')">&#128293; 習慣の継続パターン分析</button>
+      <button class="qbtn" onclick="quickAsk('封印の失敗と鍛錬の実施に相関関係はある？日本語で分析して。')">&#128279; 封印×鍛錬の相関分析</button>
+      <button class="qbtn" onclick="quickAsk('今週・今月の全データをサマリーして。称号の進捗、習慣の累計時間、注目すべき変化を日本語で簡潔に。')">&#128202; 今週・今月のサマリー</button>
+      <button class="qbtn" onclick="quickAsk('データを見て、改善できることを3つ、具体的なアドバイスとして日本語で教えて。')">&#128161; 改善アドバイス3つ</button>
     </div>
   </div>
-
-  <!-- Custom question -->
   <div class="ai-card">
-    <h3>✏️ カスタム質問</h3>
+    <h3>&#9999; カスタム質問</h3>
     <div class="ai-prompt-row">
       <textarea id="ai-custom" placeholder="例：自慰行為を減らすために何が効果的だったか分析して"></textarea>
       <button class="ai-run-btn" id="ai-run-btn" onclick="runCustomAI()">分析する</button>
     </div>
   </div>
-
-  <!-- Result -->
   <div class="ai-card" id="ai-result-card" style="display:none">
-    <h3>🧠 分析結果</h3>
+    <h3>&#129302; 分析結果</h3>
     <div class="ai-result" id="ai-result"></div>
   </div>
-
 </div>
 </div>
 
@@ -219,43 +246,37 @@ const RANKS=[
   {d:60,n:'封印の武士'},{d:90,n:'三月の禁人'},{d:180,n:'鋼の精神'},{d:365,n:'不動明王'},
 ];
 function getRank(d){let r=RANKS[0];for(const x of RANKS)if(d>=x.d)r=x;return r;}
-
-const KEY='dt_v2';
+const KEY='dt_v3';
 let S={sealCats:[],trainCats:[],logs:[]};
 const timers={};
 function getTimer(id){if(!timers[id])timers[id]={running:false,start:0,elapsed:0,interval:null};return timers[id];}
+let calYear=new Date().getFullYear(),calMonth=new Date().getMonth(),calCatId=null,calCatType='seal';
 
 function load(){
   try{const d=JSON.parse(localStorage.getItem(KEY));if(d)S=d;}catch(e){}
   if(!S.sealCats)S.sealCats=[];if(!S.trainCats)S.trainCats=[];if(!S.logs)S.logs=[];
-  // migrate old 'reset' field to 'start'
   S.sealCats.forEach(c=>{if(c.reset&&!c.start){c.start=c.reset;delete c.reset;}});
   if(!S.sealCats.length)S.sealCats=[{id:'s1',name:'自慰行為',start:Date.now()},{id:'s2',name:'YouTube',start:Date.now()}];
   if(!S.trainCats.length)S.trainCats=[{id:'t1',name:'絵画'},{id:'t2',name:'中国語'}];
-  // restore api key display
   const k=localStorage.getItem('ai_key_saved');
   if(k){document.getElementById('ai-key').value=k;document.getElementById('key-status').textContent='✓ キー設定済み';}
 }
 function save(){localStorage.setItem(KEY,JSON.stringify(S));}
 
 function sw(t){
-  ['seal','train','log','ai'].forEach(x=>{
+  ['seal','train','cal','log','ai'].forEach(x=>{
     document.getElementById('sec-'+x).classList.toggle('on',x===t);
-    const tab=document.getElementById('tab-'+x);
-    tab.className='tab';
-    if(x===t){
-      if(x==='seal')tab.classList.add('ts');
-      else if(x==='train')tab.classList.add('tt');
-      else if(x==='ai')tab.classList.add('ta');
-      else tab.classList.add('tl');
-    }
+    const tab=document.getElementById('tab-'+x);tab.className='tab';
+    if(x===t){if(x==='seal')tab.classList.add('ts');else if(x==='train')tab.classList.add('tt');else if(x==='cal')tab.classList.add('tc');else if(x==='ai')tab.classList.add('ta');else tab.classList.add('tl');}
   });
   if(t==='log')renderLogs();
+  if(t==='cal'){renderCalCatTabs();renderCal();renderTimeline();}
 }
 
 function days(ts){return Math.floor((Date.now()-ts)/86400000);}
 function fmtTimer(sec){const m=Math.floor(sec/60),s=sec%60;return m+':'+(s<10?'0':'')+s;}
 function fmtDate(ts){const d=new Date(ts);return d.getFullYear()+'/'+(d.getMonth()+1)+'/'+d.getDate()+' '+d.getHours()+':'+(d.getMinutes()<10?'0':'')+d.getMinutes();}
+function toDateStr(ts){const d=new Date(ts);return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();}
 
 function renderSeal(){
   const cats=S.sealCats;let maxD=0;
@@ -263,30 +284,40 @@ function renderSeal(){
   const rank=getRank(maxD);
   document.getElementById('seal-rank').textContent=rank.n+' — '+maxD+'日';
   const failMonth=S.logs.filter(l=>{const d=new Date(l.ts),n=new Date();return l.type==='seal'&&d.getMonth()===n.getMonth()&&d.getFullYear()===n.getFullYear();}).length;
+  const totalDur=S.logs.filter(l=>l.type==='seal').reduce((s,l)=>s+(l.dur||0),0);
   document.getElementById('seal-stats').innerHTML=`
     <div class="stat"><div class="stat-n sv">${maxD}</div><div class="stat-l">最長禁欲(日)</div></div>
     <div class="stat"><div class="stat-n sv">${failMonth}</div><div class="stat-l">今月の失敗</div></div>
-    <div class="stat"><div class="stat-n sv">${S.logs.filter(l=>l.type==='seal').length}</div><div class="stat-l">総記録数</div></div>`;
+    <div class="stat"><div class="stat-n sv">${totalDur}</div><div class="stat-l">失敗累計(分)</div></div>`;
   const el=document.getElementById('seal-cats');el.innerHTML='';
   cats.forEach(cat=>{
     const d=days(cat.start);
     const startStr=new Date(cat.start).toLocaleDateString('ja-JP');
     const tid=cat.id;
-    const div=document.createElement('div');div.className='cat-card';div.id='card-'+tid;
+    const catLogs=S.logs.filter(l=>l.type==='seal'&&l.catId===tid);
+    const totalMin=catLogs.reduce((s,l)=>s+(l.dur||0),0);
+    const div=document.createElement('div');div.className='cat-card';
     div.innerHTML=`
       <div class="cat-head">
-        <div>
-          <div class="cat-name">${cat.name}</div>
-          <div class="cat-sub">開始: ${startStr}　経過: <strong style="color:var(--seal-text);font-size:15px">${d}日</strong></div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:15px;font-weight:500">${cat.name}</div>
+          <div style="font-size:12px;color:var(--text-sub);margin-top:2px">開始: ${startStr}</div>
+          <div style="margin-top:6px;display:flex;align-items:baseline;gap:10px">
+            <span style="font-size:24px;font-weight:700;color:var(--seal-text)">${d}日</span>
+            ${totalMin>0?`<span style="font-size:12px;color:var(--text-sub)">失敗累計 ${totalMin}分</span>`:''}
+          </div>
         </div>
         <div class="cat-btns">
-          <button class="btn sbtn" onclick="toggleFailBlock('${tid}')">失敗を記録</button>
+          <button class="btn sbtn" onclick="togglePanel('${tid}')">失敗を記録</button>
           <button class="btn dbtn" onclick="deleteCat('seal','${tid}')">✕</button>
         </div>
       </div>
-      <div class="timer-block" id="tb-${tid}">
-        <div class="log-form">
-          <label>失敗した日時</label><input type="datetime-local" id="ltime-${tid}"/>
+      <div class="panel" id="tb-${tid}">
+        <div class="lf">
+          <label>失敗した日時</label>
+          <input type="datetime-local" id="ltime-${tid}"/>
+          <label>継続時間（分）※任意</label>
+          <input type="number" id="ldur-${tid}" placeholder="例：15" min="0"/>
           <label>メモ（状況・引き金・気づきなど）</label>
           <textarea id="lnote-${tid}" placeholder="例：夜中に動画を見ていたら…"></textarea>
           <button class="submit-btn ssubmit" onclick="submitSealFail('${tid}')">記録して禁欲カウンターをリセット</button>
@@ -296,20 +327,19 @@ function renderSeal(){
   });
 }
 
-function toggleFailBlock(id){
+function togglePanel(id){
   const block=document.getElementById('tb-'+id);const isOpen=block.classList.contains('open');
-  document.querySelectorAll('.timer-block.open').forEach(b=>b.classList.remove('open'));
+  document.querySelectorAll('.panel.open').forEach(b=>b.classList.remove('open'));
   block.classList.toggle('open',!isOpen);
 }
-
 function submitSealFail(catId){
   const cat=S.sealCats.find(c=>c.id===catId);if(!cat)return;
   const tsVal=document.getElementById('ltime-'+catId).value;
   const ts=tsVal?new Date(tsVal).getTime():Date.now();
+  const dur=parseInt(document.getElementById('ldur-'+catId).value)||0;
   const note=document.getElementById('lnote-'+catId).value.trim();
-  S.logs.push({id:Date.now()+'_'+Math.random(),type:'seal',catId,catName:cat.name,ts,dur:0,note});
-  cat.start=ts;
-  save();
+  S.logs.push({id:Date.now()+'_'+Math.random(),type:'seal',catId,catName:cat.name,ts,dur,note});
+  cat.start=ts;save();
   document.getElementById('tb-'+catId).classList.remove('open');
   renderSeal();
 }
@@ -333,27 +363,27 @@ function renderTrain(){
   const el=document.getElementById('train-cats');el.innerHTML='';
   cats.forEach(cat=>{
     const min=catMin(cat.id);const streak=catStreak(cat.id);const tid=cat.id;const t=getTimer(tid);
-    const div=document.createElement('div');div.className='cat-card';div.id='card-'+tid;
+    const div=document.createElement('div');div.className='cat-card';
     div.innerHTML=`
       <div class="cat-head">
-        <div><div class="cat-name">${cat.name}</div><div class="cat-sub">${streak}日連続 · 累計 ${Math.round(min/60*10)/10}h</div></div>
+        <div><div style="font-size:15px;font-weight:500">${cat.name}</div><div style="font-size:12px;color:var(--text-sub);margin-top:2px">${streak}日連続 · 累計 ${Math.round(min/60*10)/10}h</div></div>
         <div class="cat-btns">
-          <button class="btn tbtn" onclick="toggleTimerBlock('${tid}','train')">記録</button>
+          <button class="btn tbtn" onclick="togglePanel('${tid}')">記録</button>
           <button class="btn dbtn" onclick="deleteCat('train','${tid}')">✕</button>
         </div>
       </div>
-      <div class="timer-block" id="tb-${tid}">
+      <div class="panel" id="tb-${tid}">
         <div class="timer-row">
           <span class="timer-disp" id="td-${tid}">${fmtTimer(t.elapsed)}</span>
           <div class="timer-acts">
-            <button class="btn tbtn tbig" id="tpb-${tid}" onclick="toggleTimer('${tid}','train')">${t.running?'⏸ 一時停止':'▶ 開始'}</button>
+            <button class="btn tbtn tbig" id="tpb-${tid}" onclick="toggleTimer('${tid}')">${t.running?'⏸ 一時停止':'▶ 開始'}</button>
             <button class="btn dbtn tbig" onclick="resetTimerCat('${tid}')">↺</button>
           </div>
         </div>
-        <div class="log-form">
+        <div class="lf">
           <label>日時</label><input type="datetime-local" id="ltime-${tid}"/>
           <label>継続時間（分）</label><input type="number" id="ldur-${tid}" placeholder="タイマー or 手入力" min="0"/>
-          <label>メモ・内容</label><textarea id="lnote-${tid}" placeholder="今日のセッションの気づき、進捗など"></textarea>
+          <label>メモ</label><textarea id="lnote-${tid}" placeholder="今日のセッションの気づき、進捗など"></textarea>
           <button class="submit-btn tsubmit" onclick="submitLog('train','${tid}')">記録する</button>
         </div>
       </div>`;
@@ -361,12 +391,7 @@ function renderTrain(){
   });
 }
 
-function toggleTimerBlock(id,type){
-  const block=document.getElementById('tb-'+id);const isOpen=block.classList.contains('open');
-  document.querySelectorAll('.timer-block.open').forEach(b=>{if(b.id!=='tb-'+id)b.classList.remove('open');});
-  block.classList.toggle('open',!isOpen);
-}
-function toggleTimer(id,type){
+function toggleTimer(id){
   const t=getTimer(id);const btn=document.getElementById('tpb-'+id);
   if(!t.running){
     t.start=Date.now()-(t.elapsed*1000);
@@ -375,12 +400,11 @@ function toggleTimer(id,type){
       const disp=document.getElementById('td-'+id);if(disp)disp.textContent=fmtTimer(t.elapsed);
       const dur=document.getElementById('ldur-'+id);if(dur)dur.value=Math.round(t.elapsed/60);
     },500);
-    t.running=true;
-    if(btn){const cl=type==='seal'?'sbtn':'tbtn';btn.className=`btn ${cl} tbig`;btn.textContent='⏸ 一時停止';}
+    t.running=true;if(btn){btn.textContent='⏸ 一時停止';}
   }else{
     clearInterval(t.interval);t.running=false;
     const dur=document.getElementById('ldur-'+id);if(dur)dur.value=Math.round(t.elapsed/60);
-    if(btn){const cl=type==='seal'?'sbtn':'tbtn';btn.className=`btn ${cl} tbig`;btn.textContent='▶ 再開';}
+    if(btn){btn.textContent='▶ 再開';}
   }
 }
 function resetTimerCat(id){
@@ -391,8 +415,7 @@ function resetTimerCat(id){
 }
 function setNow(elId){
   const el=document.getElementById(elId);if(!el)return;
-  const now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
-  el.value=now.toISOString().slice(0,16);
+  const now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());el.value=now.toISOString().slice(0,16);
 }
 function submitLog(type,catId){
   const cats=type==='seal'?S.sealCats:S.trainCats;
@@ -402,7 +425,6 @@ function submitLog(type,catId){
   const dur=parseInt(document.getElementById('ldur-'+catId).value)||0;
   const note=document.getElementById('lnote-'+catId).value.trim();
   S.logs.push({id:Date.now()+'_'+Math.random(),type,catId,catName:cat.name,ts,dur,note});
-  if(type==='seal'){cat.reset=ts;}
   save();resetTimerCat(catId);
   document.getElementById('tb-'+catId).classList.remove('open');
   type==='seal'?renderSeal():renderTrain();
@@ -411,13 +433,10 @@ function addCat(type){
   const inp=document.getElementById(type+'-new');const name=inp.value.trim();if(!name)return;
   const id=(type==='seal'?'s':'t')+Date.now();
   if(type==='seal'){
-    const startInp=document.getElementById('seal-start');
-    const start=startInp&&startInp.value?new Date(startInp.value).getTime():Date.now();
-    S.sealCats.push({id,name,start});
-    if(startInp)startInp.value='';
-  }else{
-    S.trainCats.push({id,name});
-  }
+    const si=document.getElementById('seal-start');
+    const start=si&&si.value?new Date(si.value).getTime():Date.now();
+    S.sealCats.push({id,name,start});if(si)si.value='';
+  }else{S.trainCats.push({id,name});}
   inp.value='';save();type==='seal'?renderSeal():renderTrain();
 }
 function deleteCat(type,id){
@@ -425,6 +444,105 @@ function deleteCat(type,id){
   if(type==='seal')S.sealCats=S.sealCats.filter(c=>c.id!==id);else S.trainCats=S.trainCats.filter(c=>c.id!==id);
   save();type==='seal'?renderSeal():renderTrain();
 }
+
+// ── CALENDAR ──
+function renderCalCatTabs(){
+  const el=document.getElementById('cal-cat-tabs');el.innerHTML='';
+  const allCats=[...S.sealCats.map(c=>({...c,ctype:'seal'})),...S.trainCats.map(c=>({...c,ctype:'train'}))];
+  if(!calCatId&&allCats.length){calCatId=allCats[0].id;calCatType=allCats[0].ctype;}
+  allCats.forEach(cat=>{
+    const btn=document.createElement('button');
+    const isActive=calCatId===cat.id;
+    btn.className='cal-cat-btn'+(isActive?(cat.ctype==='seal'?' act-s':' act-t'):'');
+    btn.textContent=cat.name;
+    btn.onclick=()=>{calCatId=cat.id;calCatType=cat.ctype;renderCalCatTabs();renderCal();renderTimeline();};
+    el.appendChild(btn);
+  });
+}
+function calMove(dir){
+  calMonth+=dir;
+  if(calMonth>11){calMonth=0;calYear++;}if(calMonth<0){calMonth=11;calYear--;}
+  renderCal();
+}
+function renderCal(){
+  document.getElementById('cal-title').textContent=calYear+'年'+(calMonth+1)+'月';
+  const grid=document.getElementById('cal-grid');grid.innerHTML='';
+  ['日','月','火','水','木','金','土'].forEach(d=>{
+    const h=document.createElement('div');h.className='cal-dow';h.textContent=d;grid.appendChild(h);
+  });
+  const firstDay=new Date(calYear,calMonth,1).getDay();
+  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+  const today=new Date();
+  const failDates=new Set(S.logs.filter(l=>l.type==='seal'&&l.catId===calCatId).map(l=>toDateStr(l.ts)));
+  const trainDates=new Set(S.logs.filter(l=>l.type==='train'&&l.catId===calCatId).map(l=>toDateStr(l.ts)));
+  const sealCat=S.sealCats.find(c=>c.id===calCatId);
+  const catStartDate=sealCat?new Date(new Date(sealCat.start).getFullYear(),new Date(sealCat.start).getMonth(),new Date(sealCat.start).getDate()):null;
+
+  for(let i=0;i<firstDay;i++){const e=document.createElement('div');e.className='cal-day empty';e.textContent='';grid.appendChild(e);}
+  for(let d=1;d<=daysInMonth;d++){
+    const dt=new Date(calYear,calMonth,d);
+    const ds=toDateStr(dt.getTime());
+    const isToday=dt.toDateString()===today.toDateString();
+    const isFuture=dt>today;
+    let cls='cal-day';
+    if(isFuture){cls+=' empty';}
+    else if(calCatType==='seal'){
+      if(failDates.has(ds)){cls+=' fail';}
+      else if(catStartDate&&dt>=catStartDate){cls+=' ok';}
+      else{cls+=' neutral';}
+    }else{
+      if(trainDates.has(ds)){cls+=' has-train';}else{cls+=' neutral';}
+    }
+    if(isToday)cls+=' today';
+    const e=document.createElement('div');e.className=cls;e.textContent=d;grid.appendChild(e);
+  }
+}
+
+// ── TIMELINE ──
+function renderTimeline(){
+  const el=document.getElementById('tl-area');el.innerHTML='';
+  if(!S.sealCats.length){el.innerHTML='<div class="empty">封印カテゴリーがありません</div>';return;}
+  S.sealCats.forEach(cat=>{
+    const failLogs=[...S.logs.filter(l=>l.type==='seal'&&l.catId===cat.id)].sort((a,b)=>a.ts-b.ts);
+    // build periods
+    const periods=[];
+    if(failLogs.length===0){
+      periods.push({type:'ok',start:cat.start,end:Date.now()});
+    }else{
+      periods.push({type:'ok',start:cat.start,end:failLogs[0].ts});
+      failLogs.forEach((f,i)=>{
+        periods.push({type:'fail',ts:f.ts,dur:f.dur||0,note:f.note});
+        const nextEnd=i+1<failLogs.length?failLogs[i+1].ts:Date.now();
+        periods.push({type:'ok',start:f.ts,end:nextEnd});
+      });
+    }
+    const maxDays=Math.max(...periods.filter(p=>p.type==='ok').map(p=>Math.ceil((p.end-p.start)/86400000)),1);
+    const card=document.createElement('div');card.className='tl-card';
+    let html=`<div class="tl-cat-name">&#128274; ${cat.name}</div>`;
+    periods.forEach((p,i)=>{
+      if(p.type==='ok'){
+        const d=Math.ceil((p.end-p.start)/86400000);
+        const w=Math.max(Math.round(d/maxDays*100),2);
+        const lbl=i===0?'開始':'再開';
+        html+=`<div class="tl-bar-row">
+          <div class="tl-label">${lbl}</div>
+          <div class="tl-bar-wrap"><div class="tl-bar ok-bar" style="width:${w}%">${d>2?d+'日':''}</div></div>
+          <div class="tl-day-label">${d}日</div>
+        </div>`;
+      }else{
+        const fmtD=new Date(p.ts).toLocaleDateString('ja-JP',{month:'numeric',day:'numeric'});
+        html+=`<div class="fail-row">
+          <div class="tl-label" style="color:#E07080">失敗</div>
+          <div class="fail-badge">${fmtD}${p.dur?' · '+p.dur+'分':''}</div>
+          ${p.note?`<div style="color:var(--text-dim);font-style:italic;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;font-size:11px">${p.note}</div>`:''}
+        </div>`;
+      }
+    });
+    card.innerHTML=html;el.appendChild(card);
+  });
+}
+
+// ── LOG ──
 function renderLogs(){
   const el=document.getElementById('all-logs');
   const logs=[...S.logs].sort((a,b)=>b.ts-a.ts);
@@ -445,104 +563,66 @@ function deleteLog(id){
   S.logs=S.logs.filter(l=>l.id!==id);save();renderLogs();
 }
 
-// ── EXPORT ──
+// ── EXPORT / IMPORT ──
 function buildTextExport(){
   const lines=['=== 封印と鍛錬 データエクスポート ===','生成日時: '+new Date().toLocaleString('ja-JP'),''];
-  lines.push('【封印カテゴリー現在の状況】');
-  S.sealCats.forEach(c=>{lines.push(`・${c.name}: ${days(c.start)}日 連続禁欲中`);});
-  lines.push('');
-  lines.push('【鍛錬カテゴリー現在の状況】');
+  lines.push('【封印カテゴリー】');
+  S.sealCats.forEach(c=>lines.push(`・${c.name}: ${days(c.start)}日 連続禁欲中`));
+  lines.push('');lines.push('【鍛錬カテゴリー】');
   S.trainCats.forEach(c=>{
     const min=S.logs.filter(l=>l.type==='train'&&l.catId===c.id).reduce((s,l)=>s+(l.dur||0),0);
     lines.push(`・${c.name}: 累計 ${Math.round(min/60*10)/10}時間`);
   });
-  lines.push('');
-  lines.push('【全ログ（'+S.logs.length+'件）】');
+  lines.push('');lines.push('【全ログ（'+S.logs.length+'件）】');
   [...S.logs].sort((a,b)=>b.ts-a.ts).forEach(l=>{
     lines.push(`[${l.type==='seal'?'封印':'鍛錬'}] ${l.catName} | ${fmtDate(l.ts)}${l.dur?' | '+l.dur+'分':''}${l.note?' | '+l.note:''}`);
   });
   return lines.join('\n');
 }
-function exportText(){
-  const txt=buildTextExport();
-  navigator.clipboard.writeText(txt).then(()=>{showExpMsg();}).catch(()=>{showExportArea(txt);});
-}
+function exportText(){const txt=buildTextExport();navigator.clipboard.writeText(txt).then(()=>showExpMsg()).catch(()=>showExportArea(txt));}
+function exportJSON(){const txt=JSON.stringify(S,null,2);navigator.clipboard.writeText(txt).then(()=>showExpMsg()).catch(()=>showExportArea(txt));}
+function exportShow(){showExportArea(buildTextExport());}
+function showExportArea(txt){const a=document.getElementById('export-area');a.value=txt;a.style.display='block';a.select();}
+function showExpMsg(){const m=document.getElementById('export-msg');m.style.display='block';setTimeout(()=>m.style.display='none',2000);}
 function importData(){
   const txt=document.getElementById('import-area').value.trim();
   const msg=document.getElementById('import-msg');
   if(!txt){msg.style.display='block';msg.style.color='var(--danger)';msg.textContent='データを貼り付けてください';return;}
   try{
     const d=JSON.parse(txt);
-    if(!d.sealCats||!d.trainCats||!d.logs){throw new Error('形式が正しくありません');}
-    // migrate reset→start
+    if(!d.sealCats||!d.trainCats||!d.logs)throw new Error('形式が正しくありません');
     d.sealCats.forEach(c=>{if(c.reset&&!c.start){c.start=c.reset;delete c.reset;}});
-    S=d;save();
-    renderSeal();renderTrain();
+    S=d;save();renderSeal();renderTrain();
     document.getElementById('import-area').value='';
-    msg.style.display='block';msg.style.color='var(--train)';msg.textContent='✓ インポート完了！データを復元しました';
+    msg.style.display='block';msg.style.color='var(--train)';msg.textContent='✓ インポート完了';
     setTimeout(()=>msg.style.display='none',3000);
-  }catch(e){
-    msg.style.display='block';msg.style.color='var(--danger)';msg.textContent='エラー: '+e.message;
-  }
-}
-
-function exportJSON(){
-  const txt=JSON.stringify(S,null,2);
-  navigator.clipboard.writeText(txt).then(()=>{showExpMsg();}).catch(()=>{showExportArea(txt);});
-}
-function exportShow(){
-  showExportArea(buildTextExport());
-}
-function showExportArea(txt){
-  const a=document.getElementById('export-area');a.value=txt;a.style.display='block';a.select();
-}
-function showExpMsg(){
-  const m=document.getElementById('export-msg');m.style.display='block';setTimeout(()=>m.style.display='none',2000);
+  }catch(e){msg.style.display='block';msg.style.color='var(--danger)';msg.textContent='エラー: '+e.message;}
 }
 
 // ── AI ──
 function saveKey(){
-  const k=document.getElementById('ai-key').value.trim();
-  if(!k){alert('APIキーを入力してください');return;}
-  localStorage.setItem('ai_key_saved',k);
-  document.getElementById('key-status').textContent='✓ 保存しました';
+  const k=document.getElementById('ai-key').value.trim();if(!k){alert('APIキーを入力してください');return;}
+  localStorage.setItem('ai_key_saved',k);document.getElementById('key-status').textContent='✓ 保存しました';
 }
 function getKey(){return localStorage.getItem('ai_key_saved')||document.getElementById('ai-key').value.trim();}
-
 function buildDataContext(){
   const lines=['あなたは行動分析の専門家です。以下は私の行動記録データです。このデータを元に質問に答えてください。\n'];
-  lines.push('## 封印カテゴリー（禁欲トラッカー）');
-  S.sealCats.forEach(c=>lines.push(`- ${c.name}: 現在 ${days(c.start)}日 連続禁欲中`));
-  lines.push('\n## 鍛錬カテゴリー（習慣トラッカー）');
-  S.trainCats.forEach(c=>{
-    const min=S.logs.filter(l=>l.type==='train'&&l.catId===c.id).reduce((s,l)=>s+(l.dur||0),0);
-    lines.push(`- ${c.name}: 累計 ${Math.round(min/60*10)/10}時間`);
-  });
+  lines.push('## 封印カテゴリー');S.sealCats.forEach(c=>lines.push(`- ${c.name}: 現在 ${days(c.start)}日 連続禁欲中`));
+  lines.push('\n## 鍛錬カテゴリー');
+  S.trainCats.forEach(c=>{const min=S.logs.filter(l=>l.type==='train'&&l.catId===c.id).reduce((s,l)=>s+(l.dur||0),0);lines.push(`- ${c.name}: 累計 ${Math.round(min/60*10)/10}時間`);});
   lines.push('\n## 全記録ログ');
-  [...S.logs].sort((a,b)=>a.ts-b.ts).forEach(l=>{
-    lines.push(`[${l.type==='seal'?'封印':'鍛錬'}] ${l.catName} | ${fmtDate(l.ts)}${l.dur?' | '+l.dur+'分':''}${l.note?' | メモ:'+l.note:''}`);
-  });
-  lines.push('\n---\n質問:');
-  return lines.join('\n');
+  [...S.logs].sort((a,b)=>a.ts-b.ts).forEach(l=>{lines.push(`[${l.type==='seal'?'封印':'鍛錬'}] ${l.catName} | ${fmtDate(l.ts)}${l.dur?' | '+l.dur+'分':''}${l.note?' | メモ:'+l.note:''}`);});
+  lines.push('\n---\n質問:');return lines.join('\n');
 }
-
 async function runAI(question){
-  const key=getKey();
-  if(!key){alert('APIキーを設定してください（AI分析タブ上部）');return;}
-  const resultCard=document.getElementById('ai-result-card');
-  const resultEl=document.getElementById('ai-result');
-  const btn=document.getElementById('ai-run-btn');
-  resultCard.style.display='block';
-  resultEl.className='ai-result loading';
-  resultEl.textContent='分析中...';
-  btn.disabled=true;
+  const key=getKey();if(!key){alert('APIキーを設定してください');return;}
+  const resultCard=document.getElementById('ai-result-card');const resultEl=document.getElementById('ai-result');const btn=document.getElementById('ai-run-btn');
+  resultCard.style.display='block';resultEl.className='ai-result loading';resultEl.textContent='分析中...';btn.disabled=true;
   resultCard.scrollIntoView({behavior:'smooth',block:'nearest'});
   try{
-    const prompt=buildDataContext()+'\n'+question;
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content:buildDataContext()+'\n'+question}]})
     });
     const data=await res.json();
     if(data.error){resultEl.textContent='エラー: '+data.error.message;resultEl.className='ai-result';}
@@ -551,15 +631,9 @@ async function runAI(question){
   btn.disabled=false;
 }
 function quickAsk(q){runAI(q);}
-function runCustomAI(){
-  const q=document.getElementById('ai-custom').value.trim();
-  if(!q){alert('質問を入力してください');return;}
-  runAI(q);
-}
+function runCustomAI(){const q=document.getElementById('ai-custom').value.trim();if(!q){alert('質問を入力してください');return;}runAI(q);}
 
 load();renderSeal();renderTrain();
-
-
 </script>
 </body>
 </html>
