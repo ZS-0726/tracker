@@ -4,111 +4,113 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 <title>封印と鍛錬</title>
+<link rel="manifest" href="/tracker/manifest.json"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="封印と鍛錬"/>
+<meta name="theme-color" content="#0D0D0F"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0D0D0F;
-  --surface:#141418;
-  --card:#1C1C22;
-  --border:#2A2A33;
-  --border-light:#353540;
-  --text:#F0EDD8;
-  --text-sub:#8A8799;
-  --text-dim:#555466;
-  --seal:#7F77DD;
-  --seal-dim:#2D1F5C;
-  --seal-mid:#4A3E9C;
-  --seal-text:#CECBF6;
-  --train:#1D9E75;
-  --train-dim:#04342C;
-  --train-text:#9FE1CB;
-  --danger:#C0504D;
-  --radius:10px;
-  --radius-sm:6px;
+  --bg:#0D0D0F;--surface:#141418;--card:#1C1C22;--border:#2A2A33;--border-light:#353540;
+  --text:#F0EDD8;--text-sub:#8A8799;--text-dim:#555466;
+  --seal:#7F77DD;--seal-dim:#2D1F5C;--seal-mid:#4A3E9C;--seal-text:#CECBF6;
+  --train:#1D9E75;--train-dim:#04342C;--train-text:#9FE1CB;
+  --ai:#C97B3A;--ai-dim:#3A1F08;--ai-text:#F2C89A;
+  --danger:#C0504D;--radius:10px;--radius-sm:6px;
 }
 body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans JP',sans-serif;min-height:100vh;font-size:15px}
 .app{max-width:620px;margin:0 auto;padding:16px 12px 80px}
 h1{font-size:18px;font-weight:600;letter-spacing:0.04em;text-align:center;padding:12px 0 20px;color:var(--text-sub)}
-/* tabs */
-.tabs{display:flex;gap:6px;margin-bottom:20px;position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:10}
-.tab{flex:1;padding:10px 4px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);font-size:13px;font-weight:500;cursor:pointer;color:var(--text-sub);transition:all 0.15s;-webkit-tap-highlight-color:transparent}
+.tabs{display:flex;gap:5px;margin-bottom:20px;position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:10}
+.tab{flex:1;padding:9px 2px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);font-size:12px;font-weight:500;cursor:pointer;color:var(--text-sub);transition:all 0.15s;-webkit-tap-highlight-color:transparent}
 .tab:active{opacity:0.7}
 .tab.ts{border-color:var(--seal);background:var(--seal-dim);color:var(--seal-text)}
 .tab.tt{border-color:var(--train);background:var(--train-dim);color:var(--train-text)}
 .tab.tl{border-color:var(--border-light);background:var(--surface);color:var(--text)}
-/* sections */
-.sec{display:none}
-.sec.on{display:block}
-/* stat grid */
+.tab.ta{border-color:var(--ai);background:var(--ai-dim);color:var(--ai-text)}
+.sec{display:none}.sec.on{display:block}
 .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
 .stat{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 8px;text-align:center}
-.stat-n{font-size:22px;font-weight:600;margin-bottom:2px}
-.stat-l{font-size:11px;color:var(--text-sub)}
-.sv{color:var(--seal)}
-.tv{color:var(--train)}
-/* badge */
+.stat-n{font-size:22px;font-weight:600;margin-bottom:2px}.stat-l{font-size:11px;color:var(--text-sub)}
+.sv{color:var(--seal)}.tv{color:var(--train)}
 .badge{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:20px;font-size:13px;font-weight:500;margin-bottom:16px}
 .sbadge{background:var(--seal-dim);border:1px solid var(--seal);color:var(--seal-text)}
 .tbadge{background:var(--train-dim);border:1px solid var(--train);color:var(--train-text)}
-/* cat cards */
 .cat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden}
 .cat-head{display:flex;align-items:center;padding:12px 14px;gap:10px}
-.cat-name{flex:1;font-size:15px;font-weight:500}
-.cat-sub{font-size:12px;color:var(--text-sub);margin-top:2px}
+.cat-name{flex:1;font-size:15px;font-weight:500}.cat-sub{font-size:12px;color:var(--text-sub);margin-top:2px}
 .cat-btns{display:flex;gap:6px}
 .btn{padding:7px 13px;border-radius:var(--radius-sm);border:1px solid var(--border);background:transparent;font-size:12px;font-weight:500;cursor:pointer;color:var(--text-sub);-webkit-tap-highlight-color:transparent;transition:all 0.12s}
 .btn:active{opacity:0.6}
 .sbtn{border-color:var(--seal);color:var(--seal-text);background:var(--seal-dim)}
 .tbtn{border-color:var(--train);color:var(--train-text);background:var(--train-dim)}
 .dbtn{border-color:var(--border-light);color:var(--text-sub)}
-/* timer block inside cat */
 .timer-block{border-top:1px solid var(--border);padding:12px 14px;display:none;background:var(--surface)}
 .timer-block.open{display:block}
 .timer-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .timer-disp{font-size:26px;font-weight:600;font-variant-numeric:tabular-nums;min-width:80px;letter-spacing:0.04em}
-.timer-acts{display:flex;gap:6px;flex:1}
-.tbig{padding:9px 16px;font-size:13px}
-/* log form */
+.timer-acts{display:flex;gap:6px;flex:1}.tbig{padding:9px 16px;font-size:13px}
 .log-form{margin-top:8px}
 .log-form label{font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;margin-top:10px}
 .log-form input,.log-form textarea{width:100%;padding:9px 12px;border:1px solid var(--border-light);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-size:14px;font-family:inherit;outline:none}
-.log-form input:focus,.log-form textarea:focus{border-color:var(--border-light)}
 .log-form textarea{resize:vertical;min-height:60px}
 .submit-btn{display:block;width:100%;margin-top:12px;padding:11px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;border:none;-webkit-tap-highlight-color:transparent}
 .ssubmit{background:var(--seal-mid);color:var(--seal-text)}
 .tsubmit{background:var(--train-dim);border:1px solid var(--train);color:var(--train-text)}
-/* add row */
 .add-row{display:flex;gap:8px;margin-top:4px;margin-bottom:4px}
 .add-row input{flex:1;padding:9px 12px;border:1px solid var(--border-light);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font-size:14px;outline:none}
 .add-row button{padding:9px 16px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;cursor:pointer;border:1px solid;-webkit-tap-highlight-color:transparent}
 .sadd{border-color:var(--seal);background:var(--seal-dim);color:var(--seal-text)}
 .tadd{border-color:var(--train);background:var(--train-dim);color:var(--train-text)}
-/* section head */
 .sh{font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;margin:20px 0 10px}
-/* log list */
 .log-list{display:flex;flex-direction:column;gap:6px}
 .log-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:11px 14px;display:flex;align-items:flex-start;gap:10px}
-.log-info{flex:1;min-width:0}
-.log-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:3px}
+.log-info{flex:1;min-width:0}.log-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:3px}
 .log-cat{font-size:13px;font-weight:500}
 .log-tag{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500}
-.stag{background:var(--seal-dim);color:var(--seal-text)}
-.ttag{background:var(--train-dim);color:var(--train-text)}
+.stag{background:var(--seal-dim);color:var(--seal-text)}.ttag{background:var(--train-dim);color:var(--train-text)}
 .log-meta{font-size:12px;color:var(--text-sub)}
 .log-note{font-size:12px;color:var(--text-sub);margin-top:4px;font-style:italic;word-break:break-word}
 .xbtn{background:transparent;border:none;cursor:pointer;color:var(--text-dim);font-size:20px;line-height:1;padding:0 2px;flex-shrink:0}
 .xbtn:active{color:var(--danger)}
 .empty{color:var(--text-sub);font-size:13px;padding:24px;text-align:center}
+
+/* ── AI TAB ── */
+.ai-section{margin-bottom:20px}
+.ai-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+.ai-card h3{font-size:13px;font-weight:600;color:var(--ai-text);margin-bottom:10px}
+.ai-key-row{display:flex;gap:8px;margin-bottom:8px}
+.ai-key-row input{flex:1;padding:9px 12px;border:1px solid var(--border-light);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-size:13px;font-family:monospace;outline:none}
+.ai-key-row button{padding:9px 14px;border-radius:var(--radius-sm);font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--ai);background:var(--ai-dim);color:var(--ai-text);white-space:nowrap}
+.ai-key-hint{font-size:11px;color:var(--text-dim)}
+.ai-prompt-row{display:flex;flex-direction:column;gap:8px}
+.ai-prompt-row textarea{padding:9px 12px;border:1px solid var(--border-light);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-size:13px;font-family:inherit;outline:none;resize:vertical;min-height:70px}
+.ai-run-btn{padding:11px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;border:1px solid var(--ai);background:var(--ai-dim);color:var(--ai-text);width:100%;-webkit-tap-highlight-color:transparent}
+.ai-run-btn:disabled{opacity:0.5;cursor:not-allowed}
+.ai-result{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;font-size:14px;line-height:1.7;white-space:pre-wrap;word-break:break-word;min-height:60px;color:var(--text)}
+.ai-result.loading{color:var(--text-sub)}
+.ai-quick-btns{display:flex;flex-direction:column;gap:6px}
+.qbtn{padding:10px 14px;border-radius:var(--radius-sm);border:1px solid var(--border-light);background:var(--surface);color:var(--text-sub);font-size:13px;cursor:pointer;text-align:left;-webkit-tap-highlight-color:transparent}
+.qbtn:active{opacity:0.7}
+
+/* ── EXPORT ── */
+.export-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+.export-card h3{font-size:13px;font-weight:600;color:var(--text-sub);margin-bottom:10px}
+.export-btns{display:flex;gap:8px;flex-wrap:wrap}
+.exp-btn{padding:9px 16px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border-light);background:var(--surface);color:var(--text);-webkit-tap-highlight-color:transparent}
+.exp-btn:active{opacity:0.7}
+.export-text{width:100%;margin-top:10px;padding:10px;border:1px solid var(--border-light);border-radius:var(--radius-sm);background:var(--bg);color:var(--text-sub);font-size:11px;font-family:monospace;resize:vertical;min-height:80px;display:none}
 </style>
 </head>
 <body>
 <div class="app">
 <h1>⚔ 封印と鍛錬</h1>
-
 <div class="tabs">
   <button class="tab ts" id="tab-seal" onclick="sw('seal')">🔒 封印</button>
   <button class="tab" id="tab-train" onclick="sw('train')">🔥 鍛錬</button>
   <button class="tab" id="tab-log" onclick="sw('log')">📋 記録</button>
+  <button class="tab" id="tab-ai" onclick="sw('ai')">🤖 AI分析</button>
 </div>
 
 <!-- SEAL -->
@@ -118,7 +120,7 @@ h1{font-size:18px;font-weight:600;letter-spacing:0.04em;text-align:center;paddin
   <div class="sh">禁欲カテゴリー</div>
   <div id="seal-cats"></div>
   <div class="add-row">
-    <input id="seal-new" placeholder="カテゴリー追加（例：YouTube）" />
+    <input id="seal-new" placeholder="カテゴリー追加（例：YouTube）"/>
     <button class="sadd" onclick="addCat('seal')">＋追加</button>
   </div>
 </div>
@@ -130,7 +132,7 @@ h1{font-size:18px;font-weight:600;letter-spacing:0.04em;text-align:center;paddin
   <div class="sh">習慣カテゴリー</div>
   <div id="train-cats"></div>
   <div class="add-row">
-    <input id="train-new" placeholder="カテゴリー追加（例：絵画）" />
+    <input id="train-new" placeholder="カテゴリー追加（例：絵画）"/>
     <button class="tadd" onclick="addCat('train')">＋追加</button>
   </div>
 </div>
@@ -139,6 +141,61 @@ h1{font-size:18px;font-weight:600;letter-spacing:0.04em;text-align:center;paddin
 <div class="sec" id="sec-log">
   <div class="sh">全記録（新しい順）</div>
   <div id="all-logs" class="log-list"></div>
+</div>
+
+<!-- AI -->
+<div class="sec" id="sec-ai">
+
+  <!-- Export -->
+  <div class="export-card">
+    <h3>📤 データエクスポート（Claudeに貼り付けて分析）</h3>
+    <div class="export-btns">
+      <button class="exp-btn" onclick="exportText()">📋 テキストでコピー</button>
+      <button class="exp-btn" onclick="exportJSON()">📦 JSONでコピー</button>
+      <button class="exp-btn" onclick="exportShow()">👁 表示</button>
+    </div>
+    <textarea id="export-area" class="export-text" readonly></textarea>
+    <div id="export-msg" style="font-size:11px;color:var(--train);margin-top:6px;display:none">✓ コピーしました</div>
+  </div>
+
+  <!-- AI Key -->
+  <div class="ai-card">
+    <h3>🔑 Anthropic APIキー</h3>
+    <div class="ai-key-row">
+      <input type="password" id="ai-key" placeholder="sk-ant-..." autocomplete="off"/>
+      <button onclick="saveKey()">保存</button>
+    </div>
+    <div class="ai-key-hint">キーはこのデバイスのlocalStorageにのみ保存。<br>取得: console.anthropic.com → API Keys</div>
+    <div id="key-status" style="font-size:11px;margin-top:6px;color:var(--text-sub)"></div>
+  </div>
+
+  <!-- Quick questions -->
+  <div class="ai-card">
+    <h3>⚡ クイック分析</h3>
+    <div class="ai-quick-btns">
+      <button class="qbtn" onclick="quickAsk('直近30日間の封印（禁欲）パターンを分析して。失敗の傾向、時間帯、曜日、メモの内容から原因や引き金を特定して日本語で教えて。')">🔒 禁欲パターン・引き金を分析</button>
+      <button class="qbtn" onclick="quickAsk('直近30日の鍛錬（習慣）データを分析して。どの習慣が継続できていて、どれが不安定か。週ごとの傾向と改善アドバイスを日本語で教えて。')">🔥 習慣の継続パターンを分析</button>
+      <button class="qbtn" onclick="quickAsk('封印の失敗と鍛錬の実施に相関関係はある？（例：絵を描いた日は禁欲できているか）日本語で分析して。')">🔗 封印×鍛錬の相関を分析</button>
+      <button class="qbtn" onclick="quickAsk('今週・今月の全データをサマリーして。称号の進捗、習慣の累計時間、注目すべき変化を日本語で簡潔にまとめて。')">📊 今週・今月のサマリー</button>
+      <button class="qbtn" onclick="quickAsk('データを見て、私が特に頑張るべきこと・改善できることを3つ、具体的なアドバイスとして日本語で教えて。')">💡 改善アドバイスを3つ出して</button>
+    </div>
+  </div>
+
+  <!-- Custom question -->
+  <div class="ai-card">
+    <h3>✏️ カスタム質問</h3>
+    <div class="ai-prompt-row">
+      <textarea id="ai-custom" placeholder="例：自慰行為を減らすために何が効果的だったか分析して"></textarea>
+      <button class="ai-run-btn" id="ai-run-btn" onclick="runCustomAI()">分析する</button>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <div class="ai-card" id="ai-result-card" style="display:none">
+    <h3>🧠 分析結果</h3>
+    <div class="ai-result" id="ai-result"></div>
+  </div>
+
 </div>
 </div>
 
@@ -152,39 +209,29 @@ function getRank(d){let r=RANKS[0];for(const x of RANKS)if(d>=x.d)r=x;return r;}
 
 const KEY='dt_v2';
 let S={sealCats:[],trainCats:[],logs:[]};
-
-// timers: per-category, keyed by catId
-// {running, start, elapsed, interval}
 const timers={};
-
-function getTimer(id){
-  if(!timers[id])timers[id]={running:false,start:0,elapsed:0,interval:null};
-  return timers[id];
-}
+function getTimer(id){if(!timers[id])timers[id]={running:false,start:0,elapsed:0,interval:null};return timers[id];}
 
 function load(){
   try{const d=JSON.parse(localStorage.getItem(KEY));if(d)S=d;}catch(e){}
-  if(!S.sealCats)S.sealCats=[];
-  if(!S.trainCats)S.trainCats=[];
-  if(!S.logs)S.logs=[];
-  if(!S.sealCats.length)S.sealCats=[
-    {id:'s1',name:'自慰行為',reset:Date.now()},
-    {id:'s2',name:'YouTube',reset:Date.now()},
-  ];
-  if(!S.trainCats.length)S.trainCats=[
-    {id:'t1',name:'絵画'},{id:'t2',name:'中国語'},
-  ];
+  if(!S.sealCats)S.sealCats=[];if(!S.trainCats)S.trainCats=[];if(!S.logs)S.logs=[];
+  if(!S.sealCats.length)S.sealCats=[{id:'s1',name:'自慰行為',reset:Date.now()},{id:'s2',name:'YouTube',reset:Date.now()}];
+  if(!S.trainCats.length)S.trainCats=[{id:'t1',name:'絵画'},{id:'t2',name:'中国語'}];
+  // restore api key display
+  const k=localStorage.getItem('ai_key_saved');
+  if(k){document.getElementById('ai-key').value=k;document.getElementById('key-status').textContent='✓ キー設定済み';}
 }
 function save(){localStorage.setItem(KEY,JSON.stringify(S));}
 
 function sw(t){
-  ['seal','train','log'].forEach(x=>{
+  ['seal','train','log','ai'].forEach(x=>{
     document.getElementById('sec-'+x).classList.toggle('on',x===t);
     const tab=document.getElementById('tab-'+x);
     tab.className='tab';
     if(x===t){
       if(x==='seal')tab.classList.add('ts');
       else if(x==='train')tab.classList.add('tt');
+      else if(x==='ai')tab.classList.add('ta');
       else tab.classList.add('tl');
     }
   });
@@ -192,43 +239,23 @@ function sw(t){
 }
 
 function days(ts){return Math.floor((Date.now()-ts)/86400000);}
+function fmtTimer(sec){const m=Math.floor(sec/60),s=sec%60;return m+':'+(s<10?'0':'')+s;}
+function fmtDate(ts){const d=new Date(ts);return d.getFullYear()+'/'+(d.getMonth()+1)+'/'+d.getDate()+' '+d.getHours()+':'+(d.getMinutes()<10?'0':'')+d.getMinutes();}
 
-function fmtTimer(sec){
-  const m=Math.floor(sec/60),s=sec%60;
-  return m+':'+(s<10?'0':'')+s;
-}
-function fmtDate(ts){
-  const d=new Date(ts);
-  return d.getFullYear()+'/'+(d.getMonth()+1)+'/'+d.getDate()+' '+d.getHours()+':'+(d.getMinutes()<10?'0':'')+d.getMinutes();
-}
-
-// ── SEAL ──
 function renderSeal(){
-  const cats=S.sealCats;
-  let maxD=0;
+  const cats=S.sealCats;let maxD=0;
   cats.forEach(c=>{const d=days(c.reset);if(d>maxD)maxD=d;});
   const rank=getRank(maxD);
   document.getElementById('seal-rank').textContent=rank.n+' — '+maxD+'日';
-
-  const failMonth=S.logs.filter(l=>{
-    const d=new Date(l.ts),n=new Date();
-    return l.type==='seal'&&d.getMonth()===n.getMonth()&&d.getFullYear()===n.getFullYear();
-  }).length;
+  const failMonth=S.logs.filter(l=>{const d=new Date(l.ts),n=new Date();return l.type==='seal'&&d.getMonth()===n.getMonth()&&d.getFullYear()===n.getFullYear();}).length;
   document.getElementById('seal-stats').innerHTML=`
     <div class="stat"><div class="stat-n sv">${maxD}</div><div class="stat-l">最長禁欲(日)</div></div>
     <div class="stat"><div class="stat-n sv">${failMonth}</div><div class="stat-l">今月の失敗</div></div>
-    <div class="stat"><div class="stat-n sv">${S.logs.filter(l=>l.type==='seal').length}</div><div class="stat-l">総記録数</div></div>
-  `;
-
-  const el=document.getElementById('seal-cats');
-  el.innerHTML='';
+    <div class="stat"><div class="stat-n sv">${S.logs.filter(l=>l.type==='seal').length}</div><div class="stat-l">総記録数</div></div>`;
+  const el=document.getElementById('seal-cats');el.innerHTML='';
   cats.forEach(cat=>{
-    const d=days(cat.reset);
-    const tid=cat.id;
-    const t=getTimer(tid);
-    const div=document.createElement('div');
-    div.className='cat-card';
-    div.id='card-'+tid;
+    const d=days(cat.reset);const tid=cat.id;const t=getTimer(tid);
+    const div=document.createElement('div');div.className='cat-card';div.id='card-'+tid;
     div.innerHTML=`
       <div class="cat-head">
         <div><div class="cat-name">${cat.name}</div><div class="cat-sub">${d}日 連続禁欲</div></div>
@@ -243,63 +270,45 @@ function renderSeal(){
           <span class="timer-disp" id="td-${tid}">${fmtTimer(t.elapsed)}</span>
           <div class="timer-acts">
             <button class="btn sbtn tbig" id="tpb-${tid}" onclick="toggleTimer('${tid}','seal')">${t.running?'⏸ 一時停止':'▶ 開始'}</button>
-            <button class="btn dbtn tbig" onclick="resetTimerCat('${tid}')">↺ リセット</button>
+            <button class="btn dbtn tbig" onclick="resetTimerCat('${tid}')">↺</button>
           </div>
         </div>
         <div class="log-form">
-          <label>日時</label>
-          <input type="datetime-local" id="ltime-${tid}" />
-          <label>継続時間（分）</label>
-          <input type="number" id="ldur-${tid}" placeholder="タイマー使用 or 手入力" min="0" />
-          <label>メモ・内容</label>
-          <textarea id="lnote-${tid}" placeholder="状況・引き金・気づきなど"></textarea>
+          <label>日時</label><input type="datetime-local" id="ltime-${tid}"/>
+          <label>継続時間（分）</label><input type="number" id="ldur-${tid}" placeholder="タイマー or 手入力" min="0"/>
+          <label>メモ・内容</label><textarea id="lnote-${tid}" placeholder="状況・引き金・気づきなど"></textarea>
           <button class="submit-btn ssubmit" onclick="submitLog('seal','${tid}')">記録する → 禁欲リセット</button>
         </div>
-      </div>
-    `;
-    el.appendChild(div);
-    setNow('ltime-'+tid);
+      </div>`;
+    el.appendChild(div);setNow('ltime-'+tid);
   });
 }
 
 function resetSeal(id){
-  if(!confirm('禁欲カウンターをリセットしますか？（ログは残ります）'))return;
-  const c=S.sealCats.find(x=>x.id===id);
-  if(c){c.reset=Date.now();save();renderSeal();}
+  if(!confirm('禁欲カウンターをリセットしますか？'))return;
+  const c=S.sealCats.find(x=>x.id===id);if(c){c.reset=Date.now();save();renderSeal();}
 }
 
-// ── TRAIN ──
 function renderTrain(){
   const cats=S.trainCats;
   function catMin(id){return S.logs.filter(l=>l.type==='train'&&l.catId===id).reduce((s,l)=>s+(l.dur||0),0);}
   function catStreak(id){
-    const days=new Set(S.logs.filter(l=>l.type==='train'&&l.catId===id).map(l=>new Date(l.ts).toDateString()));
-    let streak=0;const d=new Date();
-    while(days.has(d.toDateString())){streak++;d.setDate(d.getDate()-1);}
-    return streak;
+    const ds=new Set(S.logs.filter(l=>l.type==='train'&&l.catId===id).map(l=>new Date(l.ts).toDateString()));
+    let streak=0;const d=new Date();while(ds.has(d.toDateString())){streak++;d.setDate(d.getDate()-1);}return streak;
   }
-  const todayMin=S.logs.filter(l=>{return l.type==='train'&&new Date(l.ts).toDateString()===new Date().toDateString();}).reduce((s,l)=>s+(l.dur||0),0);
+  const todayMin=S.logs.filter(l=>l.type==='train'&&new Date(l.ts).toDateString()===new Date().toDateString()).reduce((s,l)=>s+(l.dur||0),0);
   const allMin=S.logs.filter(l=>l.type==='train').reduce((s,l)=>s+(l.dur||0),0);
   const sess=S.logs.filter(l=>l.type==='train').length;
   document.getElementById('train-stats').innerHTML=`
     <div class="stat"><div class="stat-n tv">${Math.round(allMin/60*10)/10}</div><div class="stat-l">累計(時間)</div></div>
     <div class="stat"><div class="stat-n tv">${todayMin}</div><div class="stat-l">今日(分)</div></div>
-    <div class="stat"><div class="stat-n tv">${sess}</div><div class="stat-l">セッション数</div></div>
-  `;
-  let bestStreak=0;
-  cats.forEach(c=>{const s=catStreak(c.id);if(s>bestStreak)bestStreak=s;});
+    <div class="stat"><div class="stat-n tv">${sess}</div><div class="stat-l">セッション数</div></div>`;
+  let bestStreak=0;cats.forEach(c=>{const s=catStreak(c.id);if(s>bestStreak)bestStreak=s;});
   document.getElementById('train-head').textContent=`累計 ${Math.round(allMin/60*10)/10}h · 最長連続 ${bestStreak}日`;
-
-  const el=document.getElementById('train-cats');
-  el.innerHTML='';
+  const el=document.getElementById('train-cats');el.innerHTML='';
   cats.forEach(cat=>{
-    const min=catMin(cat.id);
-    const streak=catStreak(cat.id);
-    const tid=cat.id;
-    const t=getTimer(tid);
-    const div=document.createElement('div');
-    div.className='cat-card';
-    div.id='card-'+tid;
+    const min=catMin(cat.id);const streak=catStreak(cat.id);const tid=cat.id;const t=getTimer(tid);
+    const div=document.createElement('div');div.className='cat-card';div.id='card-'+tid;
     div.innerHTML=`
       <div class="cat-head">
         <div><div class="cat-name">${cat.name}</div><div class="cat-sub">${streak}日連続 · 累計 ${Math.round(min/60*10)/10}h</div></div>
@@ -313,143 +322,193 @@ function renderTrain(){
           <span class="timer-disp" id="td-${tid}">${fmtTimer(t.elapsed)}</span>
           <div class="timer-acts">
             <button class="btn tbtn tbig" id="tpb-${tid}" onclick="toggleTimer('${tid}','train')">${t.running?'⏸ 一時停止':'▶ 開始'}</button>
-            <button class="btn dbtn tbig" onclick="resetTimerCat('${tid}')">↺ リセット</button>
+            <button class="btn dbtn tbig" onclick="resetTimerCat('${tid}')">↺</button>
           </div>
         </div>
         <div class="log-form">
-          <label>日時</label>
-          <input type="datetime-local" id="ltime-${tid}" />
-          <label>継続時間（分）</label>
-          <input type="number" id="ldur-${tid}" placeholder="タイマー使用 or 手入力" min="0" />
-          <label>メモ・内容</label>
-          <textarea id="lnote-${tid}" placeholder="今日のセッションの気づき、進捗など"></textarea>
+          <label>日時</label><input type="datetime-local" id="ltime-${tid}"/>
+          <label>継続時間（分）</label><input type="number" id="ldur-${tid}" placeholder="タイマー or 手入力" min="0"/>
+          <label>メモ・内容</label><textarea id="lnote-${tid}" placeholder="今日のセッションの気づき、進捗など"></textarea>
           <button class="submit-btn tsubmit" onclick="submitLog('train','${tid}')">記録する</button>
         </div>
-      </div>
-    `;
-    el.appendChild(div);
-    setNow('ltime-'+tid);
+      </div>`;
+    el.appendChild(div);setNow('ltime-'+tid);
   });
 }
 
-// ── TIMER ──
 function toggleTimerBlock(id,type){
-  const block=document.getElementById('tb-'+id);
-  const isOpen=block.classList.contains('open');
-  // close all
-  document.querySelectorAll('.timer-block.open').forEach(b=>{
-    if(b.id!=='tb-'+id)b.classList.remove('open');
-  });
+  const block=document.getElementById('tb-'+id);const isOpen=block.classList.contains('open');
+  document.querySelectorAll('.timer-block.open').forEach(b=>{if(b.id!=='tb-'+id)b.classList.remove('open');});
   block.classList.toggle('open',!isOpen);
 }
-
 function toggleTimer(id,type){
-  const t=getTimer(id);
-  const btn=document.getElementById('tpb-'+id);
+  const t=getTimer(id);const btn=document.getElementById('tpb-'+id);
   if(!t.running){
     t.start=Date.now()-(t.elapsed*1000);
     t.interval=setInterval(()=>{
       t.elapsed=Math.floor((Date.now()-t.start)/1000);
-      const disp=document.getElementById('td-'+id);
-      if(disp)disp.textContent=fmtTimer(t.elapsed);
-      const dur=document.getElementById('ldur-'+id);
-      if(dur)dur.value=Math.round(t.elapsed/60);
+      const disp=document.getElementById('td-'+id);if(disp)disp.textContent=fmtTimer(t.elapsed);
+      const dur=document.getElementById('ldur-'+id);if(dur)dur.value=Math.round(t.elapsed/60);
     },500);
     t.running=true;
     if(btn){const cl=type==='seal'?'sbtn':'tbtn';btn.className=`btn ${cl} tbig`;btn.textContent='⏸ 一時停止';}
   }else{
     clearInterval(t.interval);t.running=false;
-    const dur=document.getElementById('ldur-'+id);
-    if(dur)dur.value=Math.round(t.elapsed/60);
+    const dur=document.getElementById('ldur-'+id);if(dur)dur.value=Math.round(t.elapsed/60);
     if(btn){const cl=type==='seal'?'sbtn':'tbtn';btn.className=`btn ${cl} tbig`;btn.textContent='▶ 再開';}
   }
 }
-
 function resetTimerCat(id){
-  const t=getTimer(id);
-  clearInterval(t.interval);
-  t.running=false;t.start=0;t.elapsed=0;
-  const disp=document.getElementById('td-'+id);
-  if(disp)disp.textContent='0:00';
-  const btn=document.getElementById('tpb-'+id);
-  if(btn)btn.textContent='▶ 開始';
-  const dur=document.getElementById('ldur-'+id);
-  if(dur)dur.value='';
+  const t=getTimer(id);clearInterval(t.interval);t.running=false;t.start=0;t.elapsed=0;
+  const disp=document.getElementById('td-'+id);if(disp)disp.textContent='0:00';
+  const btn=document.getElementById('tpb-'+id);if(btn)btn.textContent='▶ 開始';
+  const dur=document.getElementById('ldur-'+id);if(dur)dur.value='';
 }
-
-// ── LOG ──
 function setNow(elId){
-  const el=document.getElementById(elId);
-  if(!el)return;
-  const now=new Date();
-  now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
+  const el=document.getElementById(elId);if(!el)return;
+  const now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
   el.value=now.toISOString().slice(0,16);
 }
-
 function submitLog(type,catId){
   const cats=type==='seal'?S.sealCats:S.trainCats;
-  const cat=cats.find(c=>c.id===catId);
-  if(!cat)return;
+  const cat=cats.find(c=>c.id===catId);if(!cat)return;
   const tsVal=document.getElementById('ltime-'+catId).value;
   const ts=tsVal?new Date(tsVal).getTime():Date.now();
   const dur=parseInt(document.getElementById('ldur-'+catId).value)||0;
   const note=document.getElementById('lnote-'+catId).value.trim();
   S.logs.push({id:Date.now()+'_'+Math.random(),type,catId,catName:cat.name,ts,dur,note});
   if(type==='seal'){cat.reset=ts;}
-  save();
-  resetTimerCat(catId);
+  save();resetTimerCat(catId);
   document.getElementById('tb-'+catId).classList.remove('open');
   type==='seal'?renderSeal():renderTrain();
 }
-
 function addCat(type){
-  const inp=document.getElementById(type+'-new');
-  const name=inp.value.trim();
-  if(!name)return;
+  const inp=document.getElementById(type+'-new');const name=inp.value.trim();if(!name)return;
   const id=(type==='seal'?'s':'t')+Date.now();
-  if(type==='seal')S.sealCats.push({id,name,reset:Date.now()});
-  else S.trainCats.push({id,name});
-  inp.value='';
-  save();
-  type==='seal'?renderSeal():renderTrain();
+  if(type==='seal')S.sealCats.push({id,name,reset:Date.now()});else S.trainCats.push({id,name});
+  inp.value='';save();type==='seal'?renderSeal():renderTrain();
 }
-
 function deleteCat(type,id){
   if(!confirm('このカテゴリーを削除しますか？'))return;
-  if(type==='seal')S.sealCats=S.sealCats.filter(c=>c.id!==id);
-  else S.trainCats=S.trainCats.filter(c=>c.id!==id);
-  save();
-  type==='seal'?renderSeal():renderTrain();
+  if(type==='seal')S.sealCats=S.sealCats.filter(c=>c.id!==id);else S.trainCats=S.trainCats.filter(c=>c.id!==id);
+  save();type==='seal'?renderSeal():renderTrain();
 }
-
 function renderLogs(){
   const el=document.getElementById('all-logs');
   const logs=[...S.logs].sort((a,b)=>b.ts-a.ts);
   if(!logs.length){el.innerHTML='<div class="empty">まだ記録がありません</div>';return;}
   el.innerHTML='';
   logs.forEach(l=>{
-    const div=document.createElement('div');
-    div.className='log-item';
+    const div=document.createElement('div');div.className='log-item';
     const tag=l.type==='seal'?'<span class="log-tag stag">封印</span>':'<span class="log-tag ttag">鍛錬</span>';
-    div.innerHTML=`
-      <div class="log-info">
-        <div class="log-top">${tag}<span class="log-cat">${l.catName}</span></div>
-        <div class="log-meta">${fmtDate(l.ts)}${l.dur?' · '+l.dur+'分':''}</div>
-        ${l.note?`<div class="log-note">${l.note}</div>`:''}
-      </div>
-      <button class="xbtn" onclick="deleteLog('${l.id}')">×</button>
-    `;
+    div.innerHTML=`<div class="log-info"><div class="log-top">${tag}<span class="log-cat">${l.catName}</span></div>
+      <div class="log-meta">${fmtDate(l.ts)}${l.dur?' · '+l.dur+'分':''}</div>
+      ${l.note?`<div class="log-note">${l.note}</div>`:''}</div>
+      <button class="xbtn" onclick="deleteLog('${l.id}')">×</button>`;
     el.appendChild(div);
   });
 }
-
 function deleteLog(id){
   if(!confirm('この記録を削除しますか？'))return;
-  S.logs=S.logs.filter(l=>l.id!==id);
-  save();renderLogs();
+  S.logs=S.logs.filter(l=>l.id!==id);save();renderLogs();
+}
+
+// ── EXPORT ──
+function buildTextExport(){
+  const lines=['=== 封印と鍛錬 データエクスポート ===','生成日時: '+new Date().toLocaleString('ja-JP'),''];
+  lines.push('【封印カテゴリー現在の状況】');
+  S.sealCats.forEach(c=>{lines.push(`・${c.name}: ${days(c.reset)}日 連続禁欲中`);});
+  lines.push('');
+  lines.push('【鍛錬カテゴリー現在の状況】');
+  S.trainCats.forEach(c=>{
+    const min=S.logs.filter(l=>l.type==='train'&&l.catId===c.id).reduce((s,l)=>s+(l.dur||0),0);
+    lines.push(`・${c.name}: 累計 ${Math.round(min/60*10)/10}時間`);
+  });
+  lines.push('');
+  lines.push('【全ログ（'+S.logs.length+'件）】');
+  [...S.logs].sort((a,b)=>b.ts-a.ts).forEach(l=>{
+    lines.push(`[${l.type==='seal'?'封印':'鍛錬'}] ${l.catName} | ${fmtDate(l.ts)}${l.dur?' | '+l.dur+'分':''}${l.note?' | '+l.note:''}`);
+  });
+  return lines.join('\n');
+}
+function exportText(){
+  const txt=buildTextExport();
+  navigator.clipboard.writeText(txt).then(()=>{showExpMsg();}).catch(()=>{showExportArea(txt);});
+}
+function exportJSON(){
+  const txt=JSON.stringify(S,null,2);
+  navigator.clipboard.writeText(txt).then(()=>{showExpMsg();}).catch(()=>{showExportArea(txt);});
+}
+function exportShow(){
+  showExportArea(buildTextExport());
+}
+function showExportArea(txt){
+  const a=document.getElementById('export-area');a.value=txt;a.style.display='block';a.select();
+}
+function showExpMsg(){
+  const m=document.getElementById('export-msg');m.style.display='block';setTimeout(()=>m.style.display='none',2000);
+}
+
+// ── AI ──
+function saveKey(){
+  const k=document.getElementById('ai-key').value.trim();
+  if(!k){alert('APIキーを入力してください');return;}
+  localStorage.setItem('ai_key_saved',k);
+  document.getElementById('key-status').textContent='✓ 保存しました';
+}
+function getKey(){return localStorage.getItem('ai_key_saved')||document.getElementById('ai-key').value.trim();}
+
+function buildDataContext(){
+  const lines=['あなたは行動分析の専門家です。以下は私の行動記録データです。このデータを元に質問に答えてください。\n'];
+  lines.push('## 封印カテゴリー（禁欲トラッカー）');
+  S.sealCats.forEach(c=>lines.push(`- ${c.name}: 現在 ${days(c.reset)}日 連続禁欲中`));
+  lines.push('\n## 鍛錬カテゴリー（習慣トラッカー）');
+  S.trainCats.forEach(c=>{
+    const min=S.logs.filter(l=>l.type==='train'&&l.catId===c.id).reduce((s,l)=>s+(l.dur||0),0);
+    lines.push(`- ${c.name}: 累計 ${Math.round(min/60*10)/10}時間`);
+  });
+  lines.push('\n## 全記録ログ');
+  [...S.logs].sort((a,b)=>a.ts-b.ts).forEach(l=>{
+    lines.push(`[${l.type==='seal'?'封印':'鍛錬'}] ${l.catName} | ${fmtDate(l.ts)}${l.dur?' | '+l.dur+'分':''}${l.note?' | メモ:'+l.note:''}`);
+  });
+  lines.push('\n---\n質問:');
+  return lines.join('\n');
+}
+
+async function runAI(question){
+  const key=getKey();
+  if(!key){alert('APIキーを設定してください（AI分析タブ上部）');return;}
+  const resultCard=document.getElementById('ai-result-card');
+  const resultEl=document.getElementById('ai-result');
+  const btn=document.getElementById('ai-run-btn');
+  resultCard.style.display='block';
+  resultEl.className='ai-result loading';
+  resultEl.textContent='分析中...';
+  btn.disabled=true;
+  resultCard.scrollIntoView({behavior:'smooth',block:'nearest'});
+  try{
+    const prompt=buildDataContext()+'\n'+question;
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+    });
+    const data=await res.json();
+    if(data.error){resultEl.textContent='エラー: '+data.error.message;resultEl.className='ai-result';}
+    else{resultEl.textContent=data.content.map(c=>c.text||'').join('');resultEl.className='ai-result';}
+  }catch(e){resultEl.textContent='通信エラー: '+e.message;resultEl.className='ai-result';}
+  btn.disabled=false;
+}
+function quickAsk(q){runAI(q);}
+function runCustomAI(){
+  const q=document.getElementById('ai-custom').value.trim();
+  if(!q){alert('質問を入力してください');return;}
+  runAI(q);
 }
 
 load();renderSeal();renderTrain();
+
+
 </script>
 </body>
 </html>
